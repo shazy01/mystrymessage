@@ -21,11 +21,21 @@ export interface IUser extends Document {
     password: string;
     createdAt: Date;
     updatedAt: Date;
+    verifyCode: string;
+    verifyCodeExpiresAt: Date;
+    isacceptingMessages: boolean;
+    messages: Message[];
 }
 const userSchema: Schema<IUser> = new Schema({
     username: {type: String, required: true, unique: true},
-    email: {type: String, required: true, unique: true},
+    email: {type: String, required: true, unique: true,match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/},
     password: {type: String, required: true},
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date, default: Date.now},
+    verifyCode: {type: String, required: true},
+    verifyCodeExpiresAt: {type: Date, required: true},
+    isacceptingMessages: {type: Boolean, default: true},
+    messages: {type: [messageSchema], default: []},
 });
+
+
